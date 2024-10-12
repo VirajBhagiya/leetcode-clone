@@ -1,7 +1,8 @@
-import './App.css'
-import { Landing } from './components/Landing'
+import './App.css';
 import { initializeApp } from "firebase/app";
 import { Signin } from './components/Signin';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useEffect } from 'react';
 
 const firebaseConfig = {
   apiKey: "AIzaSyD3Ggu1P_JQLivejacwtB7mn8vFx7JJNMM",
@@ -13,10 +14,20 @@ const firebaseConfig = {
   measurementId: "G-0H9RFYG1XQ"
 };
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
 
 function App() {
-
+  useEffect(() => {
+    onAuthStateChanged(auth, function(user){
+      if(user){
+        console.log("This is the user: ", user);
+      } else{
+        console.log("There is no logged in user");
+      }
+    });
+  }, [])
+  
   return (
     <>
       <div>
